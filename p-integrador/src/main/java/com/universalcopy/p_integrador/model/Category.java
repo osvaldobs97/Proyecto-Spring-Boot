@@ -44,5 +44,4 @@ public class Category {
 	}//toString
 	
 	
-	
 }//Class Category
