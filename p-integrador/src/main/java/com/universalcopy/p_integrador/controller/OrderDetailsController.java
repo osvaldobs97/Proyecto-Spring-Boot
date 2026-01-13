@@ -16,7 +16,7 @@ import com.universalcopy.p_integrador.model.OrderDetail;
 import com.universalcopy.p_integrador.service.OrderDetailService;
 
 @RestController
-@RequestMapping(path = "/api")
+@RequestMapping(path = "/api/orderdetail")
 public class OrderDetailsController {
 	
 	private final OrderDetailService service;
@@ -26,17 +26,17 @@ public class OrderDetailsController {
 	this.service = service;	
 	}//constructor
 	
-	@GetMapping("/orderdetail")
+	@GetMapping
 	public List<OrderDetail> getOrdersDetails(){
 		return service.getOrdersDetail();
-	}//getOrderDetail
+	}//getOrdersDetail
 	
-	@GetMapping("/order/{orderdetailid}")
+	@GetMapping("/{orderdetailid}")
 	public OrderDetail getOrderDetail(@PathVariable("orderdetailid") long id) {
 	return service.getOrderDetail(id);	
-	}
+	}//getOrderDetail
 	
-    @PostMapping("/orderdetail")
+    @PostMapping
     public OrderDetail createOrderDetail(
             @RequestBody OrderDetail orderDetail) {
         return service.createOrderDetail(orderDetail);

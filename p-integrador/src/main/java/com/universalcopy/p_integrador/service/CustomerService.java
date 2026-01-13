@@ -5,7 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
+import com.universalcopy.p_integrador.controller.dto.ChangePassword;
 import com.universalcopy.p_integrador.model.Customer;
 import com.universalcopy.p_integrador.repository.CustomerRepository;
 
@@ -13,12 +14,9 @@ import com.universalcopy.p_integrador.repository.CustomerRepository;
 public class CustomerService {
 	
 	private final CustomerRepository repository;
-	/*
+	
 	@Autowired
-	
-	Espacio para poner el Encorer claro que si
-	
-	*/
+	private PasswordEncoder encoder;
 	
 	@Autowired
 	public CustomerService(CustomerRepository repository) {
@@ -54,10 +52,30 @@ public class CustomerService {
 		return tmp;
 	}//deleteCustomer
 	
-	/*
-	public Customer updateCustomer(long id, )
-	*/
+	public Customer updateCustomer(long id, ChangePassword changePassword) {
+		Customer tmp = null;
+			if(repository.existsById(id)) {
+				Customer user = repository.findById(id).get();
+				if(encoder.matches(changePassword.getPassword(), user.getPassword())) {
+					user.setPassword(encoder.encode(changePassword.getNpassword()));
+					repository.save(user);
+					tmp = user;
+				}//ifId
+			}
+					return tmp;
+			}//updateUsuario
 	
-	
+	public boolean validateCustomer(Customer customer) {
+		Optional<Customer> usr = repository.findByEmail(customer.getEmail());
+		if(usr.isPresent()) {
+			Customer user = usr.get();
+			if(encoder.matches(customer.getPassword(), user.getPassword())) {
+				return true;
+			}//if matches
 
+		}
+		return false;
+	}//usr.isPresent 
+	
+	
 }//classCustomerService

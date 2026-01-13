@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.universalcopy.p_integrador.controller.dto.ChangePassword;
 import com.universalcopy.p_integrador.model.Customer;
 import com.universalcopy.p_integrador.service.CustomerService;
 
 @RestController
-@RequestMapping(path= "/api")
+@RequestMapping(path= "/api/customers")
 public class CustomerController {
 	
 	private final CustomerService service;
@@ -26,33 +27,33 @@ public class CustomerController {
 		this.service = service;
 	}//Constructor
 	
-	@GetMapping("/customer/")
+	@GetMapping
 	public List<Customer> getCustomers(){
 		return service.getCustomers();
 	}//getCustomer
 	
-	@GetMapping("/customer/{customerid}")
+	@GetMapping("/{customerid}")
 	public Customer getCustomer(@PathVariable("customerid") long id) {
 		return service.getCustomer(id);
 	}//getCustomer
 	
-	@PostMapping("/customer/")
+	@PostMapping
 	public Customer addCustomer(@RequestBody Customer customer) {
 		return service.addCustomer(customer);
 	}//postCustomer
 	
-	@DeleteMapping("/customer/{customerid}")
+	@DeleteMapping("/{customerid}")
 	public Customer updateCustomer(@PathVariable("customerid") long id) {
 		return service.deleteCustomer(id);
 	}//DeleteCustomer
 	
-	/*
-	@PutMapping("/usuarios/{userid}")
-	public Customer updateCustomer(@PathVarible("customerid") long id,
+	
+	@PutMapping("/{customerid}")
+	public Customer updateCustomer(@PathVariable("customerid") long id,
 			@RequestBody ChangePassword changePassword) {
 		return service.updateCustomer(id, changePassword);
 	}//updateCustomer
-	*/
+	
 	
 	
 
