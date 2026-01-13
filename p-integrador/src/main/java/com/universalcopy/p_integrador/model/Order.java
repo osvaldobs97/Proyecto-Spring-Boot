@@ -1,12 +1,17 @@
 package com.universalcopy.p_integrador.model;
 
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,39 +26,45 @@ public class Order {
 	@Column(nullable = false)
 	private String method;
 	@Column(nullable = false)
-	private Double amount;
+	private Double totalAmount;
 	@Column(nullable = false)
 	private Date paymentDate;
-	@Column(nullable = false)
-	
+	@Column(nullable = false)	
 	private Date createdAt;
-	public Order(String status, Date createdAt, Double amount, Date paymentDate) {
+	
+	@ManyToOne
+	@JoinColumn(name="idCustomer")
+	private Customer customer;
+	
+	@OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
+	private List<OrderDetail> orderdetails;
+	
+
+	public Order(String status, String method, Double totalAmount, Date paymentDate, Date createdAt,
+			Customer customer) {
 		super();
 		this.status = status;
-		this.createdAt = createdAt;
-		this.amount = amount;
+		this.method = method;
+		this.totalAmount = totalAmount;
 		this.paymentDate = paymentDate;
+		this.createdAt = createdAt;
+		this.customer = customer;
 	}//Constructor
+
+	public Order() {
+	}//Constructor vacío
 	
 	public Long getIdOrder() {
 		return idOrder;
 	}//getIdOrder
-	
+
 	public String getStatus() {
 		return status;
 	}//getStatus
-	
+
 	public void setStatus(String status) {
 		this.status = status;
 	}//setStatus
-	
-	public Date getCreatedAt() {
-		return createdAt;
-	}//getCreatedAt
-	
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}//setCreatedAt
 
 	public String getMethod() {
 		return method;
@@ -63,6 +74,14 @@ public class Order {
 		this.method = method;
 	}//setMethod
 
+	public Double getTotalAmount() {
+		return totalAmount;
+	}//getTotalAmount
+
+	public void setTotalAmount(Double totalAmount) {
+		this.totalAmount = totalAmount;
+	}//setTotalAmount
+
 	public Date getPaymentDate() {
 		return paymentDate;
 	}//getPaymentDate
@@ -71,10 +90,28 @@ public class Order {
 		this.paymentDate = paymentDate;
 	}//setPaymentDate
 
+	public Date getCreatedAt() {
+		return createdAt;
+	}//getCreatedAt
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}//setCreatedAt
+
+	public Customer getCustomer() {
+		return customer;
+	}//getCustomer
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}//setCustomer
+
 	@Override
 	public String toString() {
-		return "Order [idOrder=" + idOrder + ", status=" + status + ", method=" + method + ", amount=" + amount
-				+ ", paymentDate=" + paymentDate + ", createdAt=" + createdAt + "]";
-	}//toString
+		return "Order [idOrder=" + idOrder + ", status=" + status + ", method=" + method + ", totalAmount="
+				+ totalAmount + ", paymentDate=" + paymentDate + ", createdAt=" + createdAt + ", customer=" + customer
+				+ "]";
+	}//toString;
+	
 	
 }//Class Order

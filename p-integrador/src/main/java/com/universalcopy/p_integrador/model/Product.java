@@ -1,12 +1,17 @@
 package com.universalcopy.p_integrador.model;
 
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -25,10 +30,17 @@ public class Product {
 	private String description;
 	@Column(nullable = false)
 	private String imageUrl;
-	@Column(nullable = false)
 	private Integer stock;
 	@Column(nullable = false)
 	private Date createdAt;
+	
+	@ManyToOne
+	@JoinColumn(name = "idCategory")
+	private Category category;
+	
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	private List<ProductCustomization> customizations;
+	
 	
 	public Product(String name, Double price, String description, String imageUrl, Integer stock, Date createdAt) {
 		super();
@@ -39,7 +51,11 @@ public class Product {
 		this.stock = stock;
 		this.createdAt = createdAt;
 	}//Constructor
+	
+	public Product() {
+	}//Constructor vacío
 
+	
 	public Long getIdProduct() {
 		return idProduct;
 	}//getIdProduct
@@ -91,9 +107,14 @@ public class Product {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}//setCreatedAt
-	
-	
-	
+
+	public Category getCategory() {
+		return category;
+	}//getCategory
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}//setCategory
 	
 	
 }//class Product

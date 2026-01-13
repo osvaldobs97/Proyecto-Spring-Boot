@@ -22,6 +22,9 @@ public class CustomizationType {
 		this.name = name;
 	}//Constructor
 
+	public CustomizationType() {
+	}//Constructor vacío
+	
 	public Long getIdCustomizationType() {
 		return idCustomizationType;
 	}//getIdCustomizationType

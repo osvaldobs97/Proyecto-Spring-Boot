@@ -23,6 +23,9 @@ public class Category {
 		this.name = name;
 	}//Constructor
 
+	public Category() {
+	}//Constructor vacío
+	
 	public Long getIdCategory() {
 		return idCategory;
 	}//getIdCategory

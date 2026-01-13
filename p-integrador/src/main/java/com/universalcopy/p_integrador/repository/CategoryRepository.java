@@ -7,5 +7,5 @@ import com.universalcopy.p_integrador.model.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long>{
-
+	
 }

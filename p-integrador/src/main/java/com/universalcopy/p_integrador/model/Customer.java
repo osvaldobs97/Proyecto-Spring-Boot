@@ -25,17 +25,24 @@ public class Customer {
 	@Column(nullable = false)
 	private String password;
 	@Column(nullable = false)
+	private String role;
+	@Column(nullable = false)
 	private Date createdAt;
 	
-	public Customer(String fullName, String phone, String email, String password, Date createdAt) {
+	
+	public Customer(String fullName, String phone, String email, String password, String role, Date createdAt) {
 		super();
 		this.fullName = fullName;
 		this.phone = phone;
 		this.email = email;
 		this.password = password;
+		this.role = role;
 		this.createdAt = createdAt;
 	}//Constructor
 
+	public Customer() {
+	}//Constructor
+	
 	public Long getIdCustomer() {
 		return idCustomer;
 	}//getIdCustomer
@@ -72,6 +79,14 @@ public class Customer {
 		this.password = password;
 	}//setPassword
 	
+	public String getRole() {
+		return role;
+	}//getRole
+
+	public void setRole(String role) {
+		this.role = role;
+	}//setRole
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}//getCreatedAt
@@ -83,7 +98,7 @@ public class Customer {
 	@Override
 	public String toString() {
 		return "Customer [idCustomer=" + idCustomer + ", fullName=" + fullName + ", phone=" + phone + ", email=" + email
-				+ ", password=" + password + ", createdAt=" + createdAt + "]";
+				+ ", password=" + password + ", role= " + role + ", createdAt=" + createdAt + "]";
 	}//toString
 	
 	

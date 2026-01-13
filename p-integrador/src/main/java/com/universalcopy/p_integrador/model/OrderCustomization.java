@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,12 +21,23 @@ public class OrderCustomization {
 	@Column(nullable = false)
 	private Double extraPrice;
 	
+	@ManyToOne
+	@JoinColumn(name="idCustomizationType")
+	private CustomizationType customizationType;
+	
+	@ManyToOne
+	@JoinColumn(name="idOrderDetail")
+	private OrderDetail orderDetail;
+	
 	public OrderCustomization(Double value, Double extraPrice) {
 		super();
 		this.value = value;
 		this.extraPrice = extraPrice;
 	}//Constructor
 
+	public OrderCustomization() {
+	}//Constructor vacío
+	
 	public Long getIdOrderCustomization() {
 		return idOrderCustomization;
 	}//getIdOrderCustomization
@@ -45,10 +58,23 @@ public class OrderCustomization {
 		this.extraPrice = extraPrice;
 	}//setExtraPrice
 
+	public CustomizationType getCustomizationType() {
+		return customizationType;
+	}
+
+	public void setCustomizationType(CustomizationType customizationType) {
+		this.customizationType = customizationType;
+	}//setCustomizationType
+
+	public void setIdOrderCustomization(Long idOrderCustomization) {
+		this.idOrderCustomization = idOrderCustomization;
+	}//setIdOrderCustomization
+
 	@Override
 	public String toString() {
 		return "OrderCustomization [idOrderCustomization=" + idOrderCustomization + ", value=" + value + ", extraPrice="
-				+ extraPrice + "]";
+				+ extraPrice + ", customizationType=" + customizationType + ", orderDetail=" + orderDetail + "]";
 	}//toString
+
 	
 }//Class OrderCustomization
