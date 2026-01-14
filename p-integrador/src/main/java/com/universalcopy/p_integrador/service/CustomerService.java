@@ -36,7 +36,7 @@ public class CustomerService {
 	public Customer addCustomer(Customer customer) {
 		Optional<Customer> user = repository.findByEmail(customer.getEmail());
 		if(user.isEmpty()) {
-			//customer.setPassword(encoder.encode(customer.getPassword()));
+			customer.setPassword(encoder.encode(customer.getPassword()));
 			repository.save(customer);
 			return customer; 
 		}
@@ -65,17 +65,22 @@ public class CustomerService {
 					return tmp;
 			}//updateUsuario
 	
-	public boolean validateCustomer(Customer customer) {
-		Optional<Customer> usr = repository.findByEmail(customer.getEmail());
-		if(usr.isPresent()) {
-			Customer user = usr.get();
-			if(encoder.matches(customer.getPassword(), user.getPassword())) {
-				return true;
-			}//if matches
+	
+	public Customer validateCustomer(Customer customer) {
+	    Optional<Customer> usr = repository.findByEmail(customer.getEmail());
+	    if (usr.isPresent()) {
+	        Customer user = usr.get();
 
-		}
-		return false;
-	}//usr.isPresent 
+	        if (encoder.matches(customer.getPassword(), user.getPassword())) {
+	            return user; 
+	        }
+	    }
+	    return null;
+	}
+
+	  
+	  
+	  
 	
 	
 }//classCustomerService

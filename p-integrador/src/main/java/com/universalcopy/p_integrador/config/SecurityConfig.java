@@ -1,29 +1,58 @@
 package com.universalcopy.p_integrador.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.socket.EnableWebSocketSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSocketSecurity
+@EnableWebSecurity
 public class SecurityConfig {
-	
-	@Bean
-	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-		return http.csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests(auth->auth.anyRequest(). permitAll())
-				.httpBasic(withDefaults()).build();
+
+	private final JwtService jwtService;
+
+	public SecurityConfig(JwtService jwtService) {
+		this.jwtService = jwtService;
 	}
 
 	@Bean
-	public PasswordEncoder encoder() {
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+		JwtFilter jwtFilter = new JwtFilter(jwtService);
+
+		return http
+
+				.csrf(csrf -> csrf.disable())
+
+				.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+
+				.authorizeHttpRequests(auth -> auth
+
+						// publicoclaroksi
+						.requestMatchers(HttpMethod.POST, "/api/login").permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
+
+						// usuariolog
+						.requestMatchers(HttpMethod.POST, "/api/orders/**").hasAnyRole("USER", "ADMIN")
+
+						// admin
+						.requestMatchers(HttpMethod.POST, "/api/products/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
+
+						.anyRequest().authenticated())
+
+				.build();
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	}//enconder
-	
-}//class
+	}
+}

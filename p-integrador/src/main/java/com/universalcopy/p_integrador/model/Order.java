@@ -36,8 +36,8 @@ public class Order {
 	@JoinColumn(name="idCustomer")
 	private Customer customer;
 	
-	@OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
-	private List<OrderDetail> orderdetails;
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	private List<OrderDetail> orderdetail;
 	
 
 	public Order(String status, String method, Double totalAmount, Date paymentDate, Date createdAt,

@@ -1,5 +1,6 @@
 package com.universalcopy.p_integrador.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 
@@ -30,9 +32,11 @@ public class Product {
 	private String description;
 	@Column(nullable = false)
 	private String imageUrl;
+	
 	private Integer stock;
 	@Column(nullable = false)
-	private Date createdAt;
+    private LocalDateTime createdAt;
+
 	
 	@ManyToOne
 	@JoinColumn(name = "idCategory")
@@ -49,8 +53,14 @@ public class Product {
 		this.description = description;
 		this.imageUrl = imageUrl;
 		this.stock = stock;
-		this.createdAt = createdAt;
+		
 	}//Constructor
+	
+	@PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }//fechay hora
+	
 	
 	public Product() {
 	}//Constructor vacío
@@ -96,17 +106,11 @@ public class Product {
 		return stock;
 	}//getStock
 
-	public void setStock(Integer stock) {
-		this.stock = stock;
-	}//setStock
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}//getCreatedAt
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}//setCreatedAt
 
 	public Category getCategory() {
 		return category;

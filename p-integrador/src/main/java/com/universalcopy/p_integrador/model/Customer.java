@@ -1,12 +1,16 @@
 package com.universalcopy.p_integrador.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,10 +28,11 @@ public class Customer {
 	private String email;
 	@Column(nullable = false)
 	private String password;
+    @Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private String role;
+	private Role role;
 	@Column(nullable = false)
-	private Date createdAt;
+	 private LocalDateTime createdAt;
 	
 	
 	public Customer(String fullName, String phone, String email, String password, String role, Date createdAt) {
@@ -36,12 +41,18 @@ public class Customer {
 		this.phone = phone;
 		this.email = email;
 		this.password = password;
-		this.role = role;
-		this.createdAt = createdAt;
 	}//Constructor
 
 	public Customer() {
 	}//Constructor
+	
+	@PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        if (this.role == null) {
+            this.role = Role.ROLE_USER;
+        }
+    }
 	
 	public Long getIdCustomer() {
 		return idCustomer;
@@ -79,21 +90,18 @@ public class Customer {
 		this.password = password;
 	}//setPassword
 	
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}//getRole
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRole(Role roleAdmin) {
+		this.role = roleAdmin;
 	}//setRole
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}//getCreatedAt
 	
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}//setCreatedAt
 
 	@Override
 	public String toString() {
