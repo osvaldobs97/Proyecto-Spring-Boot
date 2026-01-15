@@ -2,6 +2,7 @@ package com.universalcopy.p_integrador.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
 import com.universalcopy.p_integrador.model.CustomizationType;
 import com.universalcopy.p_integrador.model.Product;
 import com.universalcopy.p_integrador.model.ProductCustomization;
@@ -9,6 +10,7 @@ import com.universalcopy.p_integrador.repository.CustomizationTypeRepository;
 import com.universalcopy.p_integrador.repository.ProductCustomizationRepository;
 import com.universalcopy.p_integrador.repository.ProductRepository;
 
+@Service
 public class ProductCustomizationService {
 	
     private final ProductCustomizationRepository productCustomizationRepository;

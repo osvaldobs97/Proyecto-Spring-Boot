@@ -9,5 +9,5 @@ import com.universalcopy.p_integrador.model.ProductCustomization;
 
 @Repository
 public interface ProductCustomizationRepository extends JpaRepository<ProductCustomization, Long>{
-	Optional<ProductCustomization> findByName(String name);
+	Optional<ProductCustomization> findById(Long id);
 }
