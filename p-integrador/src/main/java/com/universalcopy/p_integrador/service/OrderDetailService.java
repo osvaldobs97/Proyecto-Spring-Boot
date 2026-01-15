@@ -5,49 +5,42 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.universalcopy.p_integrador.model.Order;
 import com.universalcopy.p_integrador.model.OrderDetail;
+import com.universalcopy.p_integrador.model.Product;
 import com.universalcopy.p_integrador.repository.OrderDetailRepository;
-
+import com.universalcopy.p_integrador.repository.ProductRepository;
 
 @Service
 public class OrderDetailService {
 
-	private final OrderDetailRepository repository;
-	
-@Autowired
-public OrderDetailService(OrderDetailRepository repository) {
-	this.repository = repository;
-	}//constructor
+	@Autowired
+	private OrderDetailRepository orderDetailRepository;
 
-public List<OrderDetail> getOrdersDetail(){
-	return repository.findAll();
-	}//getOrdersDetail
+	@Autowired
+	private ProductRepository productRepository;
 
-public OrderDetail getOrderDetail(long id) {
-	return repository.findById(id).orElseThrow(
-			()-> new IllegalArgumentException("El detalle de la orden con id [" + id + "] no existe")
-			);
-	}//getOrderDetail
+	public OrderDetail addProduct(Order order, Long productId, Integer quantity) {
 
-public OrderDetail createOrderDetail(OrderDetail orderDetail) {
-    return repository.save(orderDetail);
-	}//createOrderDetail
-
-public OrderDetail updateOrderDetail(Long id, OrderDetail orderDetail) {
-    OrderDetail existingOrderDetail = getOrderDetail(id);
-
-    existingOrderDetail.setQuantity(orderDetail.getQuantity());
-    existingOrderDetail.setUnitPrice(orderDetail.getUnitPrice());
-    existingOrderDetail.setOrder(orderDetail.getOrder());
-    existingOrderDetail.setProduct(orderDetail.getProduct());
-
-    return repository.save(existingOrderDetail);
-	}//updateOrderDetail
-
-public void deleteOrderDetail(Long id) {
-    OrderDetail orderDetail = getOrderDetail(id);
-    repository.delete(orderDetail);
-	}//deleteOrderDetail 
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new IllegalArgumentException("Producto no existe"));
 
 
-}//ClassOrderDetails
+		OrderDetail detail = new OrderDetail();
+		detail.setOrder(order);
+		detail.setProduct(product);
+		detail.setQuantity(quantity);
+		detail.setUnitPrice(product.getPrice());
+
+		return orderDetailRepository.save(detail);
+	}//addProduct
+
+    public List<OrderDetail> getDetailsByOrder(Order order) {
+        return orderDetailRepository.findByOrder(order);
+    }//getDetailsByOrder
+
+    public OrderDetail getDetail(Long id) {
+        return orderDetailRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("OrderDetail no existe"));
+    }//getDetail
+}

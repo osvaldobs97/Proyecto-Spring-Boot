@@ -1,5 +1,6 @@
 package com.universalcopy.p_integrador.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,46 +11,25 @@ import com.universalcopy.p_integrador.repository.OrderRepository;
 
 @Service
 public class OrderService {
-private final OrderRepository repository;
 
-@Autowired
-public OrderService(OrderRepository repository) {
-	this.repository = repository;
-}//Constructor
+	@Autowired
+	private OrderRepository orderRepository;
+	
+	public List<Order> getOrders() {
+		return orderRepository.findAll();
+	}
+	
+	public Order getOrder(Long id) {
+		return orderRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Order no existe"));
+	}
 
-public List<Order> getOrders(){
-	return repository.findAll();
-}//getOrders
+	public Order createOrder(Order order) {
+	    order.setStatus("CREATED");
+	    order.setCreatedAt(LocalDateTime.now());
+	    return orderRepository.save(order);
+	}
 
-public Order getOrder(long id) {
-	return repository.findById(id).orElseThrow(
-			()-> new IllegalArgumentException("La orden con el id[" + id + "] no existe")
-				);
-	}//getOrder
-public Order createOrder(Order order) {
-    return repository.save(order);
-	}//createOrder
-
-public Order updateOrder(Long id, Order order) {
-    Order existingOrder = getOrder(id);
-
-    existingOrder.setStatus(order.getStatus());
-    existingOrder.setMethod(order.getMethod());
-    existingOrder.setTotalAmount(order.getTotalAmount());
-    existingOrder.setPaymentDate(order.getPaymentDate());
-    existingOrder.setCreatedAt(order.getCreatedAt());
-    existingOrder.setCustomer(order.getCustomer());
-
-    return repository.save(existingOrder);
-	}//updateOrder
-
-public void deleteOrder(Long id) {
-    if (!repository.existsById(id)) {
-        throw new IllegalArgumentException(
-                "La orden con el id [" + id + "] no existe");
-    }
-    	repository.deleteById(id);
-	}//deleteOrder
-
-
-}//Class OrderService
+	public void deleteOrder(Long id) {
+		orderRepository.deleteById(id);
+	}
+}

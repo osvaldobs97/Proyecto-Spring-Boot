@@ -3,57 +3,54 @@ package com.universalcopy.p_integrador.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.universalcopy.p_integrador.model.OrderCustomization;
+import com.universalcopy.p_integrador.model.OrderDetail;
 import com.universalcopy.p_integrador.service.OrderCustomizationService;
+import com.universalcopy.p_integrador.service.OrderDetailService;
+import com.universalcopy.p_integrador.service.OrderService;
 
 @RestController
-@RequestMapping(path = "/api/orderCustomization")
+@RequestMapping("/api/orders/{orderId}/details/{detailId}/customizations")
 public class OrderCustomizationController {
 
-	private final OrderCustomizationService service;
-	
-	@Autowired
-	public OrderCustomizationController(OrderCustomizationService service) {
-		this.service = service;
-	}//constructor
-	
-	@GetMapping
-	public List<OrderCustomization> getOrdersCustomization(){
-		return service.getOrdersCustomization();
-	}//getOrdersCustomization
-	
-	@GetMapping("/{ordercustomizationid}")
-	public OrderCustomization getOrderCustomization(@PathVariable("ordercustomizationid")long id) {
-	return service.getOrderCustomization(id);	
-	}//getOrderCustomization
+    private final OrderCustomizationService customizationService;
+    private final OrderDetailService detailService;
+    private final OrderService orderService;
+
+    @Autowired
+    public OrderCustomizationController(
+            OrderCustomizationService customizationService,
+            OrderDetailService detailService,
+            OrderService orderService) {
+        this.customizationService = customizationService;
+        this.detailService = detailService;
+        this.orderService = orderService;
+    }
+
+
+    @GetMapping
+    public List<OrderCustomization> getCustomizations(
+            @PathVariable Long orderId,
+            @PathVariable Long detailId) {
+
+        orderService.getOrder(orderId); 
+        OrderDetail detail = detailService.getDetail(detailId); 
+
+        return customizationService.GetOrderDetailsCustomization(detail);
+    }
 
     @PostMapping
-    public OrderCustomization createOrderCustomization(
-            @RequestBody OrderCustomization orderCustomization) {
-        return service.createOrderCustomization(orderCustomization);
-    }//createOrderCustomization
+    public OrderCustomization addCustomization(
+            @PathVariable Long orderId,
+            @PathVariable Long detailId,
+            @RequestParam Long productCustomizationId,
+            @RequestParam Double value) {
 
-    @PutMapping("/{ordercustomizationid}")
-    public OrderCustomization updateOrderCustomization(
-            @PathVariable("ordercustomizationid") Long id,
-            @RequestBody OrderCustomization orderCustomization) {
-        return service.updateOrderCustomization(id, orderCustomization);
-    }//updateOrderCustomization
+        orderService.getOrder(orderId);
+        OrderDetail detail = detailService.getDetail(detailId);
 
-    @DeleteMapping("/{ordercustomizationid}")
-    public void deleteOrderCustomization(
-            @PathVariable("ordercustomizationid") Long id) {
-        service.deleteOrderCustomization(id);
-    }//deleteOrderCustomization
-	
-	
-}//class
+        return customizationService.addCustomization(detail, productCustomizationId, value);
+    }
+}
