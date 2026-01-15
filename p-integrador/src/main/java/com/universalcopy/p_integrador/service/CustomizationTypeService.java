@@ -23,12 +23,12 @@ public class CustomizationTypeService {
 	
 	public CustomizationType getCustomizationType(Long id) {
 		return repository.findById(id)
-				.orElseThrow( () -> new IllegalArgumentException("El tipo de personalización con el id [" + "] no existe.") );
+				.orElseThrow( () -> new IllegalArgumentException("El tipo de personalización con el id [" + id + "] no existe.") );
 	}//getCustomizationType
 	
 	public CustomizationType addCustomizationType(CustomizationType customizationType) {
-		Optional<CustomizationType> cat = repository.findByName(customizationType.getName());
-		if(cat.isEmpty()) {
+		Optional<CustomizationType> cusType = repository.findByName(customizationType.getName());
+		if(cusType.isEmpty()) {
 			repository.save(customizationType);
 			return customizationType;
 		}//if empty

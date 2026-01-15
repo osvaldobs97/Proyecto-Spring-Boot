@@ -33,11 +33,12 @@ public class SecurityConfig {
 
 				.authorizeHttpRequests(auth -> auth
 
-						// publicoclaroksi
+						// publico
 						.requestMatchers(HttpMethod.POST, "/api/login").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
-
+						.requestMatchers(HttpMethod.POST, "/api/customers").permitAll()
+						
 						// usuariolog
 						.requestMatchers(HttpMethod.POST, "/api/orders/**").hasAnyRole("USER", "ADMIN")
 

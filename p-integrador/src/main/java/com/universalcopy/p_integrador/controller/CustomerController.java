@@ -37,13 +37,13 @@ public class CustomerController {
 		return service.getCustomer(id);
 	}//getCustomer
 	
-	@PostMapping
+	@PostMapping("/register")
 	public Customer addCustomer(@RequestBody Customer customer) {
 		return service.addCustomer(customer);
 	}//postCustomer
 	
 	@DeleteMapping("/{customerid}")
-	public Customer updateCustomer(@PathVariable("customerid") long id) {
+	public Customer deleteCustomer(@PathVariable("customerid") long id) {
 		return service.deleteCustomer(id);
 	}//DeleteCustomer
 	
@@ -53,8 +53,5 @@ public class CustomerController {
 			@RequestBody ChangePassword changePassword) {
 		return service.updateCustomer(id, changePassword);
 	}//updateCustomer
-	
-	
-	
 
 }//ClassCustomerController

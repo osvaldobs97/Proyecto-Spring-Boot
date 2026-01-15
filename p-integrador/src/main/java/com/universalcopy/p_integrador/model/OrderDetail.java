@@ -30,7 +30,7 @@ public class OrderDetail {
 	private Order order;
 	
 	@ManyToOne
-	@JoinColumn(name="ifProduct")
+	@JoinColumn(name="idProduct")
 	private Product product;
 
 	@OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL)
