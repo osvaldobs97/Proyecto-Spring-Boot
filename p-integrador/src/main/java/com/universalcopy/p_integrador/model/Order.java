@@ -1,6 +1,6 @@
 package com.universalcopy.p_integrador.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,12 +28,12 @@ public class Order {
 	private String method;
 	@Column(nullable = false)
 	private Double totalAmount;
-	@Column(nullable = false)
-	private Date paymentDate;
 	@Column(nullable = false)	
-	private Date createdAt;
+	private LocalDateTime createdAt;
+	//@Column(nullable = false)
+	private Double subtotal;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name="idCustomer")
 	private Customer customer;
 	
@@ -40,19 +41,24 @@ public class Order {
 	private List<OrderDetail> orderdetail;
 	
 
-	public Order(String status, String method, Double totalAmount, Date paymentDate, Date createdAt,
+	public Order(String status, String method, Double totalAmount, Double subtotal,
 			Customer customer) {
 		super();
 		this.status = status;
 		this.method = method;
 		this.totalAmount = totalAmount;
-		this.paymentDate = paymentDate;
-		this.createdAt = createdAt;
+		this.subtotal = subtotal;
 		this.customer = customer;
 	}//Constructor
 
 	public Order() {
 	}//Constructor vacío
+	
+	
+	@PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }//fechay hora
 	
 	public Long getIdOrder() {
 		return idOrder;
@@ -82,21 +88,23 @@ public class Order {
 		this.totalAmount = totalAmount;
 	}//setTotalAmount
 
-	public Date getPaymentDate() {
-		return paymentDate;
-	}//getPaymentDate
 
-	public void setPaymentDate(Date paymentDate) {
-		this.paymentDate = paymentDate;
-	}//setPaymentDate
-
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}//getCreatedAt
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}//setCreatedAt
+	
+
+	public Double getSubtotal() {
+		return subtotal;
+	}
+
+	public void setSubtotal(Double subtotal) {
+		this.subtotal = subtotal;
+	}
 
 	public Customer getCustomer() {
 		return customer;
@@ -109,7 +117,7 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [idOrder=" + idOrder + ", status=" + status + ", method=" + method + ", totalAmount="
-				+ totalAmount + ", paymentDate=" + paymentDate + ", createdAt=" + createdAt + ", customer=" + customer
+				+ totalAmount + ", paymentDate=" + ", createdAt=" + createdAt + ", customer=" + customer
 				+ "]";
 	}//toString;
 	

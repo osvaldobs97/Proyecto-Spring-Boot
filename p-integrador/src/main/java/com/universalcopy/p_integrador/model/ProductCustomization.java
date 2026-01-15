@@ -14,60 +14,59 @@ import jakarta.persistence.Table;
 public class ProductCustomization {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id", unique = true, nullable = false)
+	@Column(name = "id", unique = true, nullable = false)
 	private Long id;
 	@Column(nullable = false)
 	private Double extraPrice;
-	
-    @ManyToOne
-    @JoinColumn(name = "idProduct")
-    private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "idCustomizationType")
-    private CustomizationType customizationType;
-	
+	@ManyToOne
+	@JoinColumn(name = "idProduct")
+	private Product product;
+
+	@ManyToOne
+	@JoinColumn(name = "idCustomizationType")
+	private CustomizationType customizationType;
+
 	public ProductCustomization(Double extraPrice) {
 		super();
 		this.extraPrice = extraPrice;
-	}//Constructor
-	
+	}// Constructor
+
 	public ProductCustomization() {
-	}//Constructor vacío
+	}// Constructor vacío
 
 	public Long getId() {
 		return id;
-	}//getId
+	}// getId
 
 	public Double getExtraPrice() {
 		return extraPrice;
-	}//getExtraPrice
+	}// getExtraPrice
 
 	public void setExtraPrice(Double extraPrice) {
 		this.extraPrice = extraPrice;
-	}//setExtraPrice
+	}// setExtraPrice
 
 	public Product getProduct() {
 		return product;
-	}//getProduct
+	}// getProduct
 
 	public void setProduct(Product product) {
 		this.product = product;
-	}//setProduct
+	}// setProduct
 
 	public CustomizationType getCustomizationType() {
 		return customizationType;
-	}//getCustomizationType
+	}// getCustomizationType
 
 	public void setCustomizationType(CustomizationType customizationType) {
 		this.customizationType = customizationType;
-	}//setCustomizationType
+	}// setCustomizationType
 
 	@Override
 	public String toString() {
-		return "ProductCustomization [id=" + id + ", extraPrice=" + extraPrice + ", product=" + product
-				+ ", customizationType=" + customizationType + "]";
-	}//toString
-	
-	
-}//Class ProductCustomization
+	    return "ProductCustomization [id=" + id + ", extraPrice=" + extraPrice + "]";
+	}
+
+
+}// Class ProductCustomization

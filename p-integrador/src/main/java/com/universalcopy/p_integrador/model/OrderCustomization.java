@@ -69,6 +69,14 @@ public class OrderCustomization {
 	public void setIdOrderCustomization(Long idOrderCustomization) {
 		this.idOrderCustomization = idOrderCustomization;
 	}//setIdOrderCustomization
+	
+	public OrderDetail getOrderDetail() {
+	    return orderDetail;
+	}
+
+	public void setOrderDetail(OrderDetail orderDetail) {
+	    this.orderDetail = orderDetail;
+	}
 
 	@Override
 	public String toString() {

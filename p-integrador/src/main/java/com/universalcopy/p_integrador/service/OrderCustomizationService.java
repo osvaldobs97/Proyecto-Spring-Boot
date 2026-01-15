@@ -6,46 +6,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.universalcopy.p_integrador.model.OrderCustomization;
+import com.universalcopy.p_integrador.model.OrderDetail;
+import com.universalcopy.p_integrador.model.ProductCustomization;
 import com.universalcopy.p_integrador.repository.OrderCustomizationRepository;
+import com.universalcopy.p_integrador.repository.ProductCustomizationRepository;
 
 @Service
 public class OrderCustomizationService {
 
-	private final OrderCustomizationRepository repository;
-	
-	@Autowired
-	public OrderCustomizationService(OrderCustomizationRepository repository) {
-		this.repository = repository;
-	}//constructor
-	
-	public List<OrderCustomization> getOrdersCustomization(){
-		return repository.findAll();
-	}//getOrdersCustomization
-	
-	public OrderCustomization getOrderCustomization(long id) {
-		return repository.findById(id).orElseThrow(
-				()-> new IllegalArgumentException("La orden personalizada con el id[" + id + "] no existe")
-				);
-	}//getOrderCustomization
-	
-    public OrderCustomization createOrderCustomization(
-            OrderCustomization orderCustomization) {
-        return repository.save(orderCustomization);
-    }//CreateOrderCustomization
+    @Autowired
+    private OrderCustomizationRepository repository;
 
-    public OrderCustomization updateOrderCustomization(
-            Long id, OrderCustomization orderCustomization) {
+    @Autowired
+    private ProductCustomizationRepository productCustomizationRepository;
 
-        OrderCustomization existingCustomization = getOrderCustomization(id);
-        existingCustomization.setExtraPrice(orderCustomization.getExtraPrice());
-        
+   
+    public OrderCustomization addCustomization(OrderDetail detail, Long productCustomizationId, Double value) {
+        ProductCustomization pc = productCustomizationRepository.findById(productCustomizationId)
+                .orElseThrow(() -> new IllegalArgumentException("Personalización no válida"));
 
-        return repository.save(existingCustomization);
-    }//updateOrderCustomization
+        OrderCustomization oc = new OrderCustomization();
+        oc.setOrderDetail(detail);
+        oc.setCustomizationType(pc.getCustomizationType());
+        oc.setExtraPrice(pc.getExtraPrice());
+        oc.setValue(value);
 
-    public void deleteOrderCustomization(Long id) {
-        OrderCustomization customization = getOrderCustomization(id);
-        repository.delete(customization);
-    }//deleteOrderCustomization
-    
-}//ClassOrderCustomization
+        return repository.save(oc);
+    }
+
+
+    public List<OrderCustomization> GetOrderDetailsCustomization(OrderDetail detail) {
+        return repository.findByOrderDetail(detail);
+    }
+
+  
+    public OrderCustomization GetOrderDetailCustomization(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("OrderCustomization no existe"));
+    }
+}

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.universalcopy.p_integrador.model.Product;
 import com.universalcopy.p_integrador.repository.ProductRepository;
 
-import jakarta.transaction.Transactional;
+
 
 @Service
 public class ProductService {
@@ -63,14 +63,5 @@ public class ProductService {
 		return tmp;
 	}//updateProduct
 	
-	@Transactional
-    public void buyProduct(Long productId, int quantity) {
-        Product product = repository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
-
-        product.decreaseStock(quantity);
-
-       repository.save(product);
-    }
 	
 }//Class ProductService

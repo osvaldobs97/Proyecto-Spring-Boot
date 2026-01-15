@@ -25,16 +25,16 @@ public class OrderDetail {
 	@Column(nullable = false)
 	private Double unitPrice;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name="idOrders")
 	private Order order;
 	
-	@ManyToOne
-	@JoinColumn(name="ifProduct")
+	@ManyToOne(optional = false)
+	@JoinColumn(name="idProduct")
 	private Product product;
 
 	@OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL)
-	private List<OrderCustomization> orderCustomization;
+	private List<OrderCustomization> orderCustomizations;
 	
 	public OrderDetail(Integer quantity, Double unitPrice) {
 		super();
@@ -83,8 +83,10 @@ public class OrderDetail {
 
 	@Override
 	public String toString() {
-		return "OrderDetail [idOrderDetail=" + idOrderDetail + ", quantity=" + quantity + ", unitPrice=" + unitPrice
-				+ ", order=" + order + ", product=" + product + "]";
+		return "OrderDetail [id=" + idOrderDetail +
+			       ", quantity=" + quantity +
+			       ", unitPrice=" + unitPrice + "]";
+
 	}//toString
 	
 	

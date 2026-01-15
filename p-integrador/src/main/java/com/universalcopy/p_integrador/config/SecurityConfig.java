@@ -33,10 +33,12 @@ public class SecurityConfig {
 
 				.authorizeHttpRequests(auth -> auth
 
-						// publicoclaroksi
+						// publico
 						.requestMatchers(HttpMethod.POST, "/api/login").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
+						.requestMatchers(HttpMethod.POST, "/api/customers").permitAll()
+						.requestMatchers(HttpMethod.POST, "/api/orders").permitAll()
 
 						// usuariolog
 						.requestMatchers(HttpMethod.POST, "/api/orders/**").hasAnyRole("USER", "ADMIN")
@@ -46,7 +48,7 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
 
-						.anyRequest().authenticated())
+						.anyRequest().permitAll())
 
 				.build();
 	}

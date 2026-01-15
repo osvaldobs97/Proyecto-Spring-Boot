@@ -1,7 +1,6 @@
 package com.universalcopy.p_integrador.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -32,8 +31,9 @@ public class Product {
 	private String description;
 	@Column(nullable = false)
 	private String imageUrl;
+	@Column(nullable = false)
+	private Boolean customizable;
 	
-	private Integer stock;
 	@Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -46,13 +46,14 @@ public class Product {
 	private List<ProductCustomization> customizations;
 	
 	
-	public Product(String name, Double price, String description, String imageUrl, Integer stock, Date createdAt) {
+	public Product(String name, Double price, String description, String imageUrl, Boolean customizable ) {
 		super();
 		this.name = name;
 		this.price = price;
 		this.description = description;
 		this.imageUrl = imageUrl;
-		this.stock = stock;
+		this.customizable = customizable;
+
 		
 	}//Constructor
 	
@@ -62,6 +63,15 @@ public class Product {
     }//fechay hora
 	
 	
+	
+	public List<ProductCustomization> getCustomizations() {
+		return customizations;
+	}
+
+	public void setCustomizations(List<ProductCustomization> customizations) {
+		this.customizations = customizations;
+	}
+
 	public Product() {
 	}//Constructor vacío
 
@@ -102,11 +112,7 @@ public class Product {
 		this.imageUrl = imageUrl;
 	}//setImageUrl
 
-	public Integer getStock() {
-		return stock;
-	}//getStock
-
-
+	
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}//getCreatedAt
@@ -119,6 +125,13 @@ public class Product {
 	public void setCategory(Category category) {
 		this.category = category;
 	}//setCategory
+
+	@Override
+	public String toString() {
+		return "Product [idProduct=" + idProduct + ", name=" + name + ", price=" + price + ", description="
+				+ description + ", imageUrl=" + imageUrl + ", customizable=" + customizable + ", createdAt=" + createdAt
+				+ ", category=" + category + "]";
+	}
 	
 	
 }//class Product
