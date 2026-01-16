@@ -3,6 +3,8 @@ package com.universalcopy.p_integrador.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +34,7 @@ public class Product {
 	@Column(nullable = false)
 	private String imageUrl;
 	@Column(nullable = false)
-	private Boolean customizable;
+	private boolean customizable;
 	
 	@Column(nullable = false)
     private LocalDateTime createdAt;
@@ -43,6 +45,7 @@ public class Product {
 	private Category category;
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	@JsonManagedReference("product-customization")
 	private List<ProductCustomization> customizations;
 	
 	
