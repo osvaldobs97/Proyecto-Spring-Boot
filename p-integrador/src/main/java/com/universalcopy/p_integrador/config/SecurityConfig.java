@@ -37,7 +37,7 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.POST, "/api/login").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
-						.requestMatchers(HttpMethod.POST, "/api/customers").permitAll()
+						.requestMatchers(HttpMethod.POST, "/api/customers/register").permitAll()
 						.requestMatchers(HttpMethod.POST, "/api/orders").permitAll()
 
 						// usuariolog
@@ -47,6 +47,7 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.POST, "/api/products/**").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/api/categories/**").hasRole("ADMIN")
 
 						.anyRequest().permitAll())
 

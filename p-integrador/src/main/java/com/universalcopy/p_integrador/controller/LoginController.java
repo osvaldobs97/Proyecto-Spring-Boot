@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.universalcopy.p_integrador.config.JwtService;
 import com.universalcopy.p_integrador.controller.dto.Token;
@@ -15,7 +16,7 @@ import jakarta.servlet.ServletException;
 
 @RestController
 @RequestMapping("/api/login")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://3.22.223.95/api/login", "http://localhost:5500/api/login" }, methods = {RequestMethod.POST})
 public class LoginController {
 
     private final CustomerService service;
