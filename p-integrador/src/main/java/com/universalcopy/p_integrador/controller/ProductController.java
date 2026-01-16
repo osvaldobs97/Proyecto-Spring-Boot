@@ -1,6 +1,6 @@
 package com.universalcopy.p_integrador.controller;
 
-import java.util.Date;
+
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,7 +20,12 @@ import com.universalcopy.p_integrador.service.ProductService;
 
 @RestController
 @RequestMapping("/api/products")
-@CrossOrigin(origins = {"http://3.22.223.95/api/products","http://localhost:5500/api/products" }, methods = {RequestMethod.POST})
+@CrossOrigin(
+	    origins = "http://3.22.223.95:5500", 
+	    allowedHeaders = "*", 
+	    allowCredentials = "true", 
+	    methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS}
+	)
 public class ProductController {
 	
 	private final ProductService productService;
@@ -56,10 +61,9 @@ public class ProductController {
 			@RequestParam(name="name", required = false) String name,
 			@RequestParam(name="price", required = false) Double price,
 			@RequestParam(name="description", required = false) String description,
-			@RequestParam(name="imageUrl", required = false) String imageUrl,
-			@RequestParam(name="stock", required = false) Integer stock,
-			@RequestParam(name="createdAt", required = false) Date createdAt) {
-		return productService.updateProduct(id, name, price, description, imageUrl, stock, createdAt);
+			@RequestParam(name="imageUrl", required = false) String imageUrl)
+{
+		return productService.updateProduct(id, name, price, description, imageUrl);
 	}//updateProduct
 			
 			

@@ -16,7 +16,7 @@ import jakarta.servlet.ServletException;
 
 @RestController
 @RequestMapping("/api/login")
-@CrossOrigin(origins = {"http://3.22.223.95/api/login", "http://localhost:5500/api/login" }, methods = {RequestMethod.POST})
+@CrossOrigin(origins = "http://3.22.223.95:5500", methods = {RequestMethod.POST})
 public class LoginController {
 
     private final CustomerService service;

@@ -20,7 +20,7 @@ import com.universalcopy.p_integrador.service.CustomerService;
 
 @RestController
 @RequestMapping(path= "/api/customers")
-@CrossOrigin(origins = {"http://3.22.223.95/api/customers/register", "http://localhost:5500/api/customers/register"} , methods = {RequestMethod.POST})
+@CrossOrigin(origins = "http://3.22.223.95:5500", methods = {RequestMethod.POST})
 public class CustomerController {
 	
 	private final CustomerService service;

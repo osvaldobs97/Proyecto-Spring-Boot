@@ -1,6 +1,6 @@
 package com.universalcopy.p_integrador.service;
 
-import java.util.Date;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +49,7 @@ public class ProductService {
 		return tmp;
 	}//deleteProduct
 	
-	public Product updateProduct(long id, String name, Double price, String description, String imageUrl, Integer stock, Date createdAt) {
+	public Product updateProduct(long id, String name, Double price, String description, String imageUrl) {
 		Product tmp = null;
 			if(repository.existsById(id)) {
 				Product prod = repository.findById(id).get();
